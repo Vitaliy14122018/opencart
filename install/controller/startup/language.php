@@ -2,7 +2,7 @@
 class ControllerStartupLanguage extends Controller {
 	public function index() {
 		// Default language code
-		$code = $this->config->get('language_default');
+		$code = 'ru-ru';
 		
 		$languages = glob(DIR_LANGUAGE . '*', GLOB_ONLYDIR);
 		

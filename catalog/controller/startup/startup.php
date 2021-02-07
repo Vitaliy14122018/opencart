@@ -33,7 +33,7 @@ class ControllerStartupStartup extends Controller {
 		}
 
 		// Url
-		$this->registry->set('url', new Url($this->config->get('config_url'), $this->config->get('config_ssl')));
+		$this->registry->set('url', new Url($this->config->get('config_url'), $this->config->get('config_secure') ? $this->config->get('config_ssl') : $this->config->get('config_url')));
 		
 		// Language
 		$code = '';
@@ -104,6 +104,15 @@ class ControllerStartupStartup extends Controller {
 		
 		// Set the config language_id
 		$this->config->set('config_language_id', $languages[$code]['language_id']);	
+
+		// Set multiLanguage settings
+		$langdata = $this->config->get('config_langdata');
+		if (isset($langdata[$languages[$code]['language_id']])) {
+			foreach ($langdata[$languages[$code]['language_id']] as $key => $value) {
+				$this->config->set('config_' . $key, $value);
+			}
+		}
+
 
 		// Customer
 		$customer = new Cart\Customer($this->registry);
